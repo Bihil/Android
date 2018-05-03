@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 import com.trials.stormy.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -21,6 +24,8 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
+
+    private CurrentWeather currentWeather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,20 +60,48 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     try {
-                        Log.v(TAG, response.body().string());
+                        String jsonData = response.body().string();
+                        Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
-
+                            currentWeather = getCurrentDetails(jsonData);
                         } else {
                             alertUserAboutError();
                         }
                     } catch (IOException e) {
                         Log.e(TAG, "IO Exception caught: ", e);
+                    } catch (JSONException e){
+                        Log.e(TAG, "JSON Exception caught: ", e);
                     }
                 }
             });
         }
         Log.d(TAG, "Main UI code is running, hooray!");
 
+    }
+
+    private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
+
+        JSONObject forecast = new JSONObject(jsonData);
+
+        String timezone = forecast.getString("timezone");
+        Log.i(TAG,"From JSON: " + timezone);
+
+        JSONObject currently = forecast.getJSONObject("currently");
+
+        CurrentWeather currentWeather = new CurrentWeather();
+
+        currentWeather.setHumdity(currently.getDouble("humidity"));
+        currentWeather.setTime(currently.getLong("time"));
+        currentWeather.setIcon(currently.getString("icon"));
+        currentWeather.setLocationLable("Umeå");
+        currentWeather.setPrecpChance(currently.getDouble("precipProbability"));
+        currentWeather.setSummary(currently.getString("summary"));
+        currentWeather.setTemperature(currently.getDouble("temperature"));
+        currentWeather.setTimeZone(timezone);
+
+
+        Log.d(TAG, currentWeather.getFormattedTime());
+        return null;
     }
 
     private boolean isNetworkAvailable() {
