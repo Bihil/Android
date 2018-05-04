@@ -5,7 +5,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.trials.stormy.R;
@@ -32,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        TextView darkSky  = findViewById(R.id.darkSkyAttribution);
 
+        darkSky.setMovementMethod(LinkMovementMethod.getInstance());
         String apiKey = "57eaf3aa961968bf65b0619680588073";
         double latitude = 63.8257;
         double longitude = 20.2631;
