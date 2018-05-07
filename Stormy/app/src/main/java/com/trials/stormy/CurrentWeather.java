@@ -5,13 +5,31 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class CurrentWeather {
-    private String locationLable;
+
+    private String locationLabel;
     private String icon;
     private long time;
     private double temperature;
-    private double humdity;
-    private double precpChance;
+    private double humidity;
+    private double precipChance;
     private String summary;
+    private String timeZone;
+
+    public CurrentWeather() {
+    }
+
+    public CurrentWeather(String locationLabel, String icon, long time,
+                          double temperature, double humidity, double precipChance,
+                          String summary, String timeZone) {
+        this.locationLabel = locationLabel;
+        this.icon = icon;
+        this.time = time;
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.precipChance = precipChance;
+        this.summary = summary;
+        this.timeZone = timeZone;
+    }
 
     public String getTimeZone() {
         return timeZone;
@@ -21,14 +39,12 @@ public class CurrentWeather {
         this.timeZone = timeZone;
     }
 
-    private String timeZone;
-
-    public String getLocationLable() {
-        return locationLable;
+    public String getLocationLabel() {
+        return locationLabel;
     }
 
-    public void setLocationLable(String locationLable) {
-        this.locationLable = locationLable;
+    public void setLocationLabel(String locationLabel) {
+        this.locationLabel = locationLabel;
     }
 
     public String getIcon() {
@@ -38,9 +54,8 @@ public class CurrentWeather {
     public void setIcon(String icon) {
         this.icon = icon;
     }
-    public int getIconId(){
-        //clear-day, clear-night, rain, snow, sleet, wind, fog,
-        // cloudy, partly-cloudy-day, or partly-cloudy-night
+
+    public int getIconId() {
         int iconId = R.drawable.clear_day;
 
         switch(icon) {
@@ -75,6 +90,7 @@ public class CurrentWeather {
                 iconId = R.drawable.cloudy_night;
                 break;
         }
+
         return iconId;
     }
 
@@ -82,9 +98,8 @@ public class CurrentWeather {
         return time;
     }
 
-    public String getFormattedTime(){
+    public String getFormattedTime() {
         SimpleDateFormat formatter = new SimpleDateFormat("h:mm a");
-
         formatter.setTimeZone(TimeZone.getTimeZone(timeZone));
 
         Date dateTime = new Date(time * 1000);
@@ -103,20 +118,20 @@ public class CurrentWeather {
         this.temperature = temperature;
     }
 
-    public double getHumdity() {
-        return humdity;
+    public double getHumidity() {
+        return humidity;
     }
 
-    public void setHumdity(double humdity) {
-        this.humdity = humdity;
+    public void setHumidity(double humidity) {
+        this.humidity = humidity;
     }
 
-    public double getPrecpChance() {
-        return precpChance;
+    public double getPrecipChance() {
+        return precipChance;
     }
 
-    public void setPrecpChance(double precpChance) {
-        this.precpChance = precpChance;
+    public void setPrecipChance(double precipChance) {
+        this.precipChance = precipChance;
     }
 
     public String getSummary() {
